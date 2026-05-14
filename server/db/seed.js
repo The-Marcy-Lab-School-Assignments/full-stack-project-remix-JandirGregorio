@@ -22,7 +22,7 @@ const seed = async () => {
       title       TEXT NOT NULL,
       status      TEXT DEFAULT 'plan to watch',
       rating      INTEGER CHECK (rating >= 1 AND rating <= 10),
-      notes       TEXT
+      notes       TEXT,
       user_id     INT REFERENCES users(user_id) ON DELETE CASCADE
     )
   `);
