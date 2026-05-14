@@ -9,7 +9,7 @@ module.exports.listByUser = async (user_id) => {
 
 // Returns a single anime entry row (used for ownership checks before update/delete)
 module.exports.find = async (entry_id) => {
-  const query = 'SELECT * FROM anime_entries WHERE todo_id = $1';
+  const query = 'SELECT * FROM anime_entries WHERE entry_id = $1';
   const { rows } = await pool.query(query, [entry_id]);
   return rows[0] || null;
 };
@@ -24,7 +24,6 @@ module.exports.create = async (title, status, rating, notes, user_id) => {
 
 // Updates title, status, rating, and notes for an anime entry. Returns the updated row.
 module.exports.update = async (entry_id, { title, status, rating, notes }) => {
-  // TODO update query to update anime_entries -> use COALESCE for only valid values, not all of them
   const query = `
                 UPDATE anime_entries
                 SET 
