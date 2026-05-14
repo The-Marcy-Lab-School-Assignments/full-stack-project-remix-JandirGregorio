@@ -1,9 +1,12 @@
-# Anime Tracker App
+# Otaroku - Anime Tracker App
+
+Tired of keeping track of anime on your notes app or trying to remember if you've already watched a series?
+
+Same.
+
+**Otaroku** is a personal anime tracking app built for fans who want one dedicated place to manage everything they've watched, are currently watching, or plan to watch. No more scattered notes or forgotten titles; just a clean, organized list that's entirely yours.
 
 A full-stack Anime Tracker application built with React, Express, and Postgres. Demonstrates session-based authentication, session rehydration, auth-dependent data fetching, and conditional rendering.
-
-This application is aimed for anime lovers who are looking for a place to track their anime's in a journal-entry-like manner.
-
 
 ## User Stories
 
