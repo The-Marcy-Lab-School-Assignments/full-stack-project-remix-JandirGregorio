@@ -4,8 +4,8 @@ const pool = require('./pool');
 const SALT_ROUNDS = 8;
 
 const seed = async () => {
-  // Drop tables in reverse dependency order (todos references users via FK)
-  await pool.query('DROP TABLE IF EXISTS todos');
+  // Drop tables in reverse dependency order (anime_entries references users via FK)
+  await pool.query('DROP TABLE IF EXISTS anime_entries');
   await pool.query('DROP TABLE IF EXISTS users');
 
   await pool.query(`
@@ -17,21 +17,21 @@ const seed = async () => {
   `);
 
   await pool.query(`
-    CREATE TABLE todos (
-      todo_id     SERIAL PRIMARY KEY,
+    CREATE TABLE anime_entries (
+      entry_id     SERIAL PRIMARY KEY,
       title       TEXT NOT NULL,
-      is_complete BOOLEAN NOT NULL DEFAULT FALSE,
+      status      TEXT DEFAULT 'plan to watch',
+      rating      INTEGER CHECK (rating >= 1 AND rating <= 10),
+      notes       TEXT
       user_id     INT REFERENCES users(user_id) ON DELETE CASCADE
     )
   `);
 
-  // Hash passwords in parallel — bcrypt is slow by design (CPU-bound hashing)
   const [aliceHash, bobHash] = await Promise.all([
     bcrypt.hash('password123', SALT_ROUNDS),
     bcrypt.hash('password123', SALT_ROUNDS),
   ]);
 
-  // RETURNING captures inserted user_ids so we don't hardcode them
   const { rows: users } = await pool.query(`
     INSERT INTO users (username, password_hash) VALUES
       ('alice', $1),
@@ -41,14 +41,16 @@ const seed = async () => {
 
   const [alice, bob] = users;
 
-  await pool.query(`
-    INSERT INTO todos (title, is_complete, user_id) VALUES
-      ('Buy groceries',        FALSE, $1),
-      ('Walk the dog',         FALSE, $1),
-      ('Read a book',          TRUE,  $1),
-      ('Set up the database',  TRUE,  $2),
-      ('Build the API',        TRUE,  $2),
-      ('Build the frontend',   FALSE, $2)
+   await pool.query(`
+    INSERT INTO anime_entries (title, status, rating, notes, user_id) VALUES
+      ('Fullmetal Alchemist: Brotherhood', 'completed',     10, 'An all-time classic.',          $1),
+      ('Attack on Titan',                  'completed',      9, 'Incredible story progression.', $1),
+      ('Demon Slayer',                     'watching',       8, 'Stunning animation.',           $1),
+      ('One Piece',                        'plan to watch', NULL, 'Need to start this one.',     $1),
+      ('Steins;Gate',                      'completed',     10, 'Mind-bending time travel.',     $2),
+      ('Hunter x Hunter',                  'completed',      9, 'Great power system.',           $2),
+      ('Jujutsu Kaisen',                   'watching',       8, 'Loving it so far.',             $2),
+      ('Vinland Saga',                     'plan to watch', NULL, 'Heard great things.',         $2)
   `, [alice.user_id, bob.user_id]);
 
   return users;
