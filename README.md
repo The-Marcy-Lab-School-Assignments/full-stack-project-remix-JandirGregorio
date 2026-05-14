@@ -58,10 +58,10 @@ A user has many anime entries. Deleting a user cascades to delete all of their e
 
 | Method | Endpoint              | Request Body      | Response                                     |
 | ------ | --------------------- | ----------------- | -------------------------------------------- |
-| GET    | `/api/animes`          | —                 | `[{ entry_id, title, status, rating, notes, user_id }]` |
-| POST   | `/api/animes`          | `{ title, status, rating, notes }`       | `{ entry_id, title, status, rating, notes, user_id }`   |
-| PATCH  | `/api/animes/:anime_id` | `{ title, status, rating, notes }` | `{ entry_id, title, status, rating, notes, user_id }`   |
-| DELETE | `/api/animes/:anime_id` | —                 | `{ entry_id, title, status, rating, notes, user_id }`   |
+| GET    | `/api/anime`          | —                 | `[{ entry_id, title, status, rating, notes, user_id }]` |
+| POST   | `/api/anime`          | `{ title, status, rating, notes }`       | `{ entry_id, title, status, rating, notes, user_id }`   |
+| PATCH  | `/api/anime/:entry_id` | `{ title, status, rating, notes }` | `{ entry_id, title, status, rating, notes, user_id }`   |
+| DELETE | `/api/anime/:entry_id` | —                 | `{ entry_id, title, status, rating, notes, user_id }`   |
 
 ## Setup
 

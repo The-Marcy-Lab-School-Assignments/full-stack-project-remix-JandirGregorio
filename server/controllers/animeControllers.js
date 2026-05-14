@@ -5,10 +5,11 @@ const isValidRating = (rating) => {
   return Number.isInteger(num) && num >= 1 && num <= 10;
 };
 
-module.exports.listAnimes = async (req, res, next) => {
+// Fetches a list of anime
+module.exports.listAnime = async (req, res, next) => {
   try {
-    const animes = await animeModel.listByUser(req.session.user_id);
-    res.send(animes);
+    const anime = await animeModel.listByUser(req.session.user_id);
+    res.send(anime);
   } catch (err) {
     next(err);
   }
