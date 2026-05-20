@@ -1,6 +1,6 @@
 import { createAnime } from '../adapters/anime-adapters';
 
-const STATUS = ['Plan To Watch', 'Watching', 'Completed'];
+const STATUS = ['plan to watch', 'watching', 'completed', 'dropped'];
 
 function AddAnimeEntryForm({ loadEntries }) {
   const handleSubmit = async (e) => {
@@ -27,6 +27,7 @@ function AddAnimeEntryForm({ loadEntries }) {
       <label htmlFor="title-input">Title</label>
       <input type="text" name="title" id="title-input" placeholder="e.g. One Piece" required />
 
+      <label htmlFor="status-dropdown">Status</label>
       <select name="status" id="status-dropdown" required >
         <option value="">-- select --</option>
         {STATUS.map((status) => (
