@@ -1,10 +1,5 @@
 const animeModel = require('../models/animeModel');
 
-const isValidRating = (rating) => {
-  const num = Number(rating);
-  return Number.isInteger(num) && num >= 1 && num <= 10;
-};
-
 // Fetches a list of anime
 module.exports.listAnime = async (req, res, next) => {
   try {
@@ -21,10 +16,12 @@ module.exports.createAnimeEntry = async (req, res, next) => {
     if (!title || !status) {
       return res.status(400).send({ error: 'Title and status are required.' });
     }
-    if (rating !== undefined && !isValidRating(rating)) {
+    if (rating !== undefined && Number.isInteger(Number(rating))) {
       return res.status(400).send({ error: 'Rating must be an integer between 1 and 10.' });
     }
-    const anime = await animeModel.create(title, status, rating, notes, req.session.user_id);
+
+    const parsedRating = rating ? parseInt(rating) : null;
+    const anime = await animeModel.create(title, status, parsedRating, notes, req.session.user_id);
     res.status(201).send(anime);
   } catch (err) {
     next(err);
