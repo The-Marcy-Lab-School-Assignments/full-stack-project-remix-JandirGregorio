@@ -2,7 +2,7 @@ import {useState} from 'react';
 import { deleteAnime, updateAnime } from '../adapters/anime-adapters';
 import EditEntryForm from './EditEntryForm';
 
-const STATUS = ['plan to watch', 'watching', 'completed', 'dropped'];
+const STATUS = ['Plan To Watch', 'Watching', 'Completed', 'Dropped'];
 
 function AnimeItem({ entry, loadEntries }) {
   const handleStatusChange = async (e) => {
@@ -31,21 +31,26 @@ function AnimeItem({ entry, loadEntries }) {
     <li className={`anime-item ${statusClass[entry.status.toLowerCase()] || ''}`}>
       <div className="anime-item-header">
         <span className="title">{entry.title}</span>
-        {entry.rating && <span className="rating">{entry.rating}/10</span> || <span className="rating">N\A</span>}
-        <select
-          className="status-select"
-          value={entry.status}
-          onChange={handleStatusChange}
-        >
-          {STATUS.map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
         <div className="anime-item-actions">
           <button className="edit-btn" onClick={() => setShowEdit(true)}>Edit</button>
           <button className="delete-btn" onClick={handleDelete}>Delete</button>
         </div>
       </div>
+
+      <div className="anime-item-status">
+    <select className="status-select" value={entry.status} onChange={handleStatusChange}>
+      {STATUS.map((s) => (
+        <option key={s} value={s.toLowerCase()}>{s}</option>
+      ))}
+    </select>
+  </div>
+
+  <div className="anime-item-meta">
+    {entry.season && <span>S{entry.season}</span>}
+    {entry.episode && <span>E{entry.episode}</span>}
+    {entry.rating ? <span>{entry.rating}/10</span> : <span className="no-rating">N/A</span>}
+  </div>
+
       {entry.notes && (
         <div className="anime-item-notes">
           <p>{entry.notes}</p>

@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { updateAnime } from '../adapters/anime-adapters';
-const STATUS = ['plan to watch', 'watching', 'completed', 'dropped'];
+
+const STATUS = ['Plan To Watch', 'Watching', 'Completed', 'Dropped'];
 
 function EditEntryForm({ entry, onClose, loadEntries }) {
   const [form, setForm] = useState({
     title: entry.title || '',
     status: entry.status || '',
     rating: entry.rating || '',
+    season: entry.season || '',
+    episode: entry.episode || '',
     notes: entry.notes || '',
   });
   const dialogRef = useRef(null);
@@ -38,16 +41,14 @@ function EditEntryForm({ entry, onClose, loadEntries }) {
         <label>Title</label>
           <input name="title" value={form.title} onChange={handleChange} />
 
-        <label htmlFor="edit-status-dropdown">Status</label>
-          <select name="status" id="edit-status-dropdown" value={form.status} onChange={handleChange} >
-            <option value="">-- select --</option>
-              {STATUS.map((status) => (
-            <option key={status} value={status}>{status}</option>
-            ))}
-          </select>
+        <label htmlFor="edit-rating">Rating</label>
+          <input id="edit-status" name="rating" type="number" min="1" max="10" value={form.rating} onChange={handleChange} />
 
-        <label htmlFor="edit-rating-dropdown">Rating</label>
-          <input id="edit-status-dropdown" name="rating" type="number" min="1" max="10" value={form.rating} onChange={handleChange} />
+        <label htmlFor="edit-season">Season</label>
+        <input id="edit-season" name="season" type="number" min="1" value={form.season} onChange={handleChange} />
+
+        <label htmlFor="edit-episode">Episode</label>
+        <input id="edit-episode" name="episode" type="number" min="1" value={form.episode} onChange={handleChange} />
 
         <label htmlFor="edit-notes">Notes</label>
           <textarea id="edit-notes" name="notes" value={form.notes} onChange={handleChange} />

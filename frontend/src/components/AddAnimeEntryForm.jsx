@@ -1,6 +1,6 @@
 import { createAnime } from '../adapters/anime-adapters';
 
-const STATUS = ['plan to watch', 'watching', 'completed', 'dropped'];
+const STATUS = ['Plan To Watch', 'Watching', 'Completed', 'Dropped'];
 
 function AddAnimeEntryForm({ loadEntries }) {
   const handleSubmit = async (e) => {
@@ -9,11 +9,13 @@ function AddAnimeEntryForm({ loadEntries }) {
     const title = form.elements.title.value;
     const status = form.elements.status.value;
     const rating = form.elements.rating.value;
+    const season = form.elements.season.value;
+    const episode = form.elements.episode.value;
     const notes = form.elements.notes.value;
     
     if (!title || !status) return;
 
-    const { error } = await createAnime(title, status, rating, notes);
+    const { error } = await createAnime(title, status, rating, season, episode, notes);
     if (error) return console.error(error);
 
     await loadEntries();
@@ -37,6 +39,12 @@ function AddAnimeEntryForm({ loadEntries }) {
 
       <label htmlFor="rating-input">Rating</label>
       <input type="number" name="rating" min="1" max="10" id="rating-input" placeholder='1 - 10' />
+
+      <label htmlFor="season-input">Season</label>
+      <input type="number" name="season" min="1" max="50" id="season-input" placeholder="1-50"/>
+
+      <label htmlFor="episode-input">Episode</label>
+      <input type="number" name="episode" min="1" max="2000" id="episode-input" placeholder="1-2000"/>
 
       <label htmlFor="notes-input">Notes</label>
       <textarea name="notes" id="notes-input" placeholder="What are your thoughts?"></textarea>
