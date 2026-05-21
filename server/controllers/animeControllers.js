@@ -18,9 +18,6 @@ module.exports.createAnimeEntry = async (req, res, next) => {
     if (!title || !status) {
       return res.status(400).send({ error: 'Title and status are required.' });
     }
-    if (rating !== undefined && !Number.isInteger(Number(rating))) {
-      return res.status(400).send({ error: 'Rating must be an integer between 1 and 10.' });
-    }
 
     if (status && !VALID_STATUSES.includes(status.toLowerCase())) {
       return res.status(400).send({ error: 'Invalid status value.' });
@@ -33,6 +30,9 @@ module.exports.createAnimeEntry = async (req, res, next) => {
     const anime = await animeModel.create(title, normalizedStatus, parsedRating, parsedSeason, parsedEpisode, notes, req.session.user_id);
     res.status(201).send(anime);
   } catch (err) {
+    if (err.code === '23514') {
+      return res.status(400).send( { error: 'Rating must be between an integer between 1 and 10.' });
+    }
     next(err);
   }
 };
@@ -41,9 +41,6 @@ module.exports.updateAnimeEntry = async (req, res, next) => {
   try {
     const { entry_id } = req.params;
     const { title, status, rating, season, episode, notes } = req.body;
-    if (rating !== undefined && !Number.isInteger(Number(rating))) {
-      return res.status(400).send({ error: 'Rating must be an integer between 1 and 10.' });
-    }
 
     if (status && !VALID_STATUSES.includes(status.toLowerCase())) {
       return res.status(400).send({ error: 'Invalid status value.' });
@@ -65,6 +62,9 @@ module.exports.updateAnimeEntry = async (req, res, next) => {
     });
     res.send(updatedAnimeEntry);
   } catch (err) {
+    if (err.code === '23514') {
+      return res.status(400).send( { error: 'Rating must an integer between 1 and 10.' });
+    }
     next(err);
   }
 };
