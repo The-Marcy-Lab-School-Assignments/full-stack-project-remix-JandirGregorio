@@ -13,11 +13,11 @@ export const fetchAllAnime = async () => {
   return handleFetch('/api/anime');
 };
 
-export const createAnime = async (title, status, rating, notes) => {
+export const createAnime = async (title, status, rating, season, episode, notes) => {
   return handleFetch('/api/anime', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title, status, rating, notes }),
+    body: JSON.stringify({ title, status, rating, season, episode, notes }),
   });
 };
 
