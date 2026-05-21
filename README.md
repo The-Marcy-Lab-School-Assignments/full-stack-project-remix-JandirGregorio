@@ -15,17 +15,20 @@ for a passionate anime fan — and **kiroku** (記録) — the Japanese word for
 "record" or "log." Put them together and you get a name that speaks 
 directly to what this app is: a personal record-keeper built for fans.
 
-## Features
+## User Stories
+### Auth
+- A user can register for an account with a username and password
+- A user can log in to an existing account
+- A user can log out
+- A returning user who has an active session is automatically logged in when they revisit the app
 
-- Track anime by status: **Plan to Watch**, **Watching**, **Completed**, or **Dropped**
-- Color-coded cards per status for instant visual recognition
-- Log a **rating** (1–10), **season**, **episode**, and personal **notes** per entry
-- Change an entry's status directly from the card via an inline dropdown
-- Full **edit modal** to update any field without leaving the page
-- Notes are scrollable on the card — write full reviews without cluttering the UI
-- Per-user data: each account only sees their own entries
-- Returning users with an active session are automatically logged back in
-
+### Anime Entries
+- A logged-in user can see all of their anime entries, color-coded by status for instant visual recognition
+- A logged-in user can create a new anime entry with a title, status, rating (1–10), season, episode, and personal notes
+- A logged-in user can change an entry's status (Plan to Watch, Watching, Completed, or Dropped) directly from the card via an inline dropdown
+- A logged-in user can open a full edit modal to update any field of an existing entry without leaving the page
+- A logged-in user can scroll through long notes on a card without cluttering the UI
+- A logged-in user can delete an anime entry
 ## Schema
 
 ```
