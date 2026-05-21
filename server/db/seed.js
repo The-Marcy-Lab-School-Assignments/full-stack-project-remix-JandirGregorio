@@ -22,6 +22,8 @@ const seed = async () => {
       title       TEXT NOT NULL,
       status      TEXT DEFAULT 'plan to watch',
       rating      INTEGER CHECK (rating >= 1 AND rating <= 10),
+      season      INTEGER,
+      episode     INTEGER,
       notes       TEXT,
       user_id     INT REFERENCES users(user_id) ON DELETE CASCADE
     )
@@ -41,17 +43,17 @@ const seed = async () => {
 
   const [alice, bob] = users;
 
-   await pool.query(`
-    INSERT INTO anime_entries (title, status, rating, notes, user_id) VALUES
-      ('Fullmetal Alchemist: Brotherhood', 'completed',     10, 'An all-time classic.',          $1),
-      ('Attack on Titan',                  'completed',      9, 'Incredible story progression.', $1),
-      ('Demon Slayer',                     'watching',       8, 'Stunning animation.',           $1),
-      ('One Piece',                        'plan to watch', NULL, 'Need to start this one.',     $1),
-      ('Steins;Gate',                      'completed',     10, 'Mind-bending time travel.',     $2),
-      ('Hunter x Hunter',                  'completed',      9, 'Great power system.',           $2),
-      ('Jujutsu Kaisen',                   'watching',       8, 'Loving it so far.',             $2),
-      ('Vinland Saga',                     'plan to watch', NULL, 'Heard great things.',         $2)
-  `, [alice.user_id, bob.user_id]);
+  await pool.query(`
+  INSERT INTO anime_entries (title, status, rating, season, episode, notes, user_id) VALUES
+    ('Fullmetal Alchemist: Brotherhood', 'completed',     10, NULL, NULL, 'An all-time classic.',          $1),
+    ('Attack on Titan',                  'completed',      9, NULL, NULL, 'Incredible story progression.', $1),
+    ('Demon Slayer',                     'watching',       8,    4,   12, 'Stunning animation.',           $1),
+    ('One Piece',                        'plan to watch', NULL, NULL, NULL, 'Need to start this one.',     $1),
+    ('Steins;Gate',                      'completed',     10, NULL, NULL, 'Mind-bending time travel.',     $2),
+    ('Hunter x Hunter',                  'completed',      9, NULL, NULL, 'Great power system.',           $2),
+    ('Jujutsu Kaisen',                   'watching',       8,    2,   14, 'Loving it so far.',             $2),
+    ('Vinland Saga',                     'plan to watch', NULL, NULL, NULL, 'Heard great things.',         $2)
+`, [alice.user_id, bob.user_id]);
 
   return users;
 };

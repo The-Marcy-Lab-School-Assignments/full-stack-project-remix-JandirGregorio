@@ -15,25 +15,27 @@ module.exports.find = async (entry_id) => {
 };
 
 // Creates a new anime entry. Returns the full anime entry row.
-module.exports.create = async (title, status, rating, notes, user_id) => {
-  const query = `INSERT INTO anime_entries (title, status, rating, notes, user_id)
-                  VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-  const { rows } = await pool.query(query, [title, status, rating, notes, user_id]);
+module.exports.create = async (title, status, rating, season, episode, notes, user_id) => {
+  const query = `INSERT INTO anime_entries (title, status, rating, season, episode, notes, user_id)
+                  VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+  const { rows } = await pool.query(query, [title, status, rating, season, episode, notes, user_id]);
   return rows[0];
 };
 
 // Updates title, status, rating, and notes for an anime entry. Returns the updated row.
-module.exports.update = async (entry_id, { title, status, rating, notes }) => {
+module.exports.update = async (entry_id, { title, status, season, episode, rating, notes }) => {
   const query = `
                 UPDATE anime_entries
                 SET 
                   title   = COALESCE($1, title),
                   status  = COALESCE($2, status),
                   rating  = COALESCE($3, rating),
-                  notes   = COALESCE($4, notes)
-                WHERE entry_id = $5
+                  season  = COALESCE($4, season),
+                  episode = COALESCE($5, episode),
+                  notes   = COALESCE($6, notes)
+                WHERE entry_id = $7
                 RETURNING *`;
-  const { rows } = await pool.query(query, [title, status, rating, notes, entry_id]);
+  const { rows } = await pool.query(query, [title, status, rating, season, episode, notes, entry_id]);
   return rows[0];
 };
 
