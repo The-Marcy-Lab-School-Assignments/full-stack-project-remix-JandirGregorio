@@ -6,20 +6,20 @@
 
 body {
   font-family: system-ui, sans-serif;
-  background: #f5f5f5;
+  background: #101d2d;
   color: #1a1a1a;
 }
 
 main {
-  max-width: 600px;
+  max-width: 1100px;
   margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 h1 {
   font-size: 1.75rem;
   margin-bottom: 1.5rem;
-  color: #1d4ed8;
+  color: #e2e8f0;
 }
 
 /* Auth forms */
@@ -29,27 +29,44 @@ h1 {
 }
 
 form {
-  background: white;
+  background: #1e2d3d;
   padding: 1.5rem;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2d3f55;
   flex: 1;
+  color: #e2e8f0;
 }
 
 form h2 {
   margin-bottom: 1rem;
   font-size: 1.1rem;
-  color: #374151;
+  color: #e2e8f0;
 }
 
-form input {
+form label {
+  display: block;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 0.25rem;
+}
+
+form input,
+form select,
+form textarea {
   display: block;
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #2d3f55;
   border-radius: 4px;
   font-size: 0.95rem;
+  background: #0f1923;
+  color: #e2e8f0;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
 form button[type='submit'] {
@@ -60,29 +77,30 @@ form button[type='submit'] {
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.95rem;
+  width: 100%;
+}
+
+form button[type='submit']:hover {
+  background: #2563eb;
 }
 
 .error {
-  color: #dc2626;
+  color: #f87171;
   font-size: 0.85rem;
   margin-bottom: 0.5rem;
 }
 
-/* Logged-in view */
-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
+/* User controls */
 #user-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: white;
+  background: #1e2d3d;
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2d3f55;
+  margin-bottom: 1.5rem;
+  color: #e2e8f0;
 }
 
 #user-controls button {
@@ -95,75 +113,223 @@ section {
   font-size: 0.9rem;
 }
 
-/* Add todo form */
-#add-todo-form {
+/* Two-column layout */
+#anime-page-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+#add-entry-form {
+  position: sticky;
+  top: 1.5rem;
+}
+
+/* Anime list */
+#anime-list-section {
   display: flex;
-  gap: 0.5rem;
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
   flex-direction: column;
+  gap: 0.75rem;
 }
 
-#add-todo-form label {
-  font-size: 0.9rem;
-  color: #374151;
-  display: none;
-}
-
-#add-todo-form input {
-  flex: 1;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  margin-bottom: 0;
-}
-
-#add-todo-form button {
-  background: #1d4ed8;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-
-/* Todo list */
-#todo-list {
+#anime-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.todo-item {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.todo-item input[type='checkbox'] {
-  width: 1rem;
-  height: 1rem;
+.status-select {
+  background: transparent;
+  border: 1px solid #2d3f55;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  padding: 0.2rem 0.4rem;
   cursor: pointer;
   flex-shrink: 0;
 }
 
-.todo-item span {
-  flex: 1;
-  font-size: 0.95rem;
+.status-select option {
+  background: #1e2d3d;
+  color: #e2e8f0;
 }
 
-.todo-item span.completed {
-  text-decoration: line-through;
-  color: #9ca3af;
+.anime-item {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-left: 4px solid transparent;
+}
+
+.anime-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.anime-item-status {
+  margin-top: 0.25rem;
+}
+
+.anime-item-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.no-rating {
+  color: #898888;
+}
+
+.anime-item-header .rating {
+  font-size: 0.85rem;
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+.anime-item-header .status {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.anime-item-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.anime-item-notes {
+  max-height: 80px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.anime-item-notes p {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* scrollbar styling */
+.anime-item-notes::-webkit-scrollbar {
+  width: 4px;
+}
+
+.anime-item-notes::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.anime-item-notes::-webkit-scrollbar-thumb {
+  background: #2d3f55;
+  border-radius: 2px;
+}
+
+/* Status colors */
+.anime-item.status-watching {
+  background: #1e3a5f;
+  border-left-color: #3b82f6;
+}
+
+.anime-item.status-completed {
+  background: #14532d;
+  border-left-color: #22c55e;
+}
+
+.anime-item.status-plan-to-watch {
+  background: #3d2000;
+  border-left-color: #facc15;
+}
+
+.anime-item.status-dropped {
+  background: #450a0a;
+  border-left-color: #ef4444;
+}
+
+/* Brighter card text */
+.anime-item .title,
+.anime-item-header .title {
+  font-weight: 600;
+  color: #f1f5f9;
+  flex: 1;
+}
+
+.anime-item-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  margin-top: 0.25rem;
+}
+
+.anime-item-notes p {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+/* Status select colored per status */
+.anime-item.status-watching .status-select {
+  border-color: #60a5fa;
+  color: #60a5fa;
+}
+
+.anime-item.status-completed .status-select {
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+.anime-item.status-plan-to-watch .status-select {
+  border-color: #facc15;
+  color: #facc15;
+}
+
+.anime-item.status-dropped .status-select {
+  border-color: #f87171;
+  color: #f87171;
+}
+
+.anime-item.status-watching .status-select:hover {
+  background: #60a5fa20;
+}
+
+.anime-item.status-completed .status-select:hover {
+  background: #4ade8020;
+}
+
+.anime-item.status-plan-to-watch .status-select:hover {
+  background: #facc1520;
+}
+
+.anime-item.status-dropped .status-select:hover {
+  background: #f8717120;
+}
+
+.anime-item .status {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  flex: 1;
+}
+
+.anime-item .rating {
+  font-size: 0.85rem;
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+.anime-item .notes {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  flex: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .delete-btn {
@@ -177,9 +343,83 @@ section {
   flex-shrink: 0;
 }
 
-@media (min-width: 480px) {
-  #add-todo-form {
-    flex-direction: row;
-    align-items: flex-end;
+.edit-btn {
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.edit-btn:hover {
+  background: #2563eb;
+}
+
+/* dialog modal */
+dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  background: #1e2d3d;
+  color: #e2e8f0;
+  width: 90%;
+  max-width: 420px;
+}
+
+dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  background: #1e2d3d;
+  color: #e2e8f0;
+  width: 90%;
+  max-width: 420px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+dialog form {
+  border: none;
+  padding: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.modal-actions button[type='submit'] {
+  flex: 1;
+}
+
+.modal-actions button[type='button'] {
+  background: #374151;
+  color: #e2e8f0;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  #anime-page-layout {
+    grid-template-columns: 1fr;
+  }
+
+  #add-entry-form {
+    position: static;
   }
 }
